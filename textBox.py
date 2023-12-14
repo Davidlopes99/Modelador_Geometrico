@@ -10,7 +10,7 @@ class TextBox(QWidget):
         self.setWindowTitle("MyGLDrawer")
         self.r_value = 1.0
         self.okClicked = False
-        self.r = QLabel("Insira o raio:")
+        self.r = QLabel("Insira o  valor do raio:")
 
         self.boxR = QLineEdit() 
 
