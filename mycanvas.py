@@ -87,7 +87,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
         pt1_U = self.convertPtCoordsToUniverse(self.m_pt1)
 
         if not self.isPanAllowed and not self.isFenceColectorOn:
-            glColor3f(0.0, 0.5, 0.5)
+            glColor3f(0, 0, 4)
             glBegin(GL_LINE_STRIP)
             glVertex2f(pt0_U.x(), pt0_U.y())
             glVertex2f(pt1_U.x(), pt1_U.y())
@@ -100,7 +100,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
                 triangs = Tesselation.tessellate(pts)
                 for j in range(len(triangs)):
                     #glColor3fv(pts[triangs[j][2]].getColor()) #color
-                    glColor3fv([14,1,1])
+                    glColor3fv([200,1,1])
                     glBegin(GL_TRIANGLES)
                     glVertex2d(pts[triangs[j][0]].getX(), pts[triangs[j][0]].getY())
                     glVertex2d(pts[triangs[j][1]].getX(), pts[triangs[j][1]].getY())
@@ -109,7 +109,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
 
             #for the line not be under the seg while drawing
             if not self.isPanAllowed and not self.isFenceColectorOn:
-                glColor3f(0.0, 0.5, 0.5)
+                glColor3f(40, 20, 0.5)
                 glBegin(GL_LINE_STRIP)
                 glVertex2f(pt0_U.x(), pt0_U.y())
                 glVertex2f(pt1_U.x(), pt1_U.y())
@@ -118,7 +118,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
             segments = self.h_model.getSegments()
             for curv in segments:
                 ptc = curv.getPointsToDraw()
-                glColor3f(0.0, 0.5, 1.0)
+                glColor3f(70, 0.5, 20)
                 glBegin(GL_LINES)
                 for curv in segments:
                     glVertex2f(ptc[0].getX(), ptc[0].getY())
@@ -132,7 +132,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
   
         if len(self.model.getMesh()) > 0:
             pts = self.model.getMesh()
-            glColor3f(0.0, 0.5, 0.5)
+            glColor3f(0, 0, 55)
             glPointSize(2)
             glBegin(GL_POINTS)
             for i in range(len(pts)):
@@ -141,7 +141,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
 
 
         if not self.isPanAllowed and self.isFenceColectorOn:
-            glColor3f(1.0, 0.5, 0.0)
+            glColor3f(20, 20, 20)
             glBegin(GL_LINE_STRIP)
             glVertex2f(pt0_U.x(), pt0_U.y())
             glVertex2f(pt1_U.x(), pt1_U.y())
@@ -151,7 +151,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
             segments = self.fence_model.getSegments()
             for curv in segments:
                 ptc = curv.getPointsToDraw()
-                glColor3f(1.0, 0.5, 0.0)
+                glColor3f(20, 20, 20)
                 glBegin(GL_LINES)
                 for curv in segments:
                     glVertex2f(ptc[0].getX(), ptc[0].getY())
