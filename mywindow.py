@@ -21,20 +21,20 @@ class MyWindow(QMainWindow):
         # create a Toolbar
         tb = self.addToolBar("File")
 
-        # add insertText
-        boxText = QAction("RAIO",self)
+       # add insertText
+        boxText = QAction(QIcon(r"icons\radius.png"),"particulas",self)
         tb.addAction(boxText)
 
         # add insertText
-        saveJson = QAction("JSON",self)
+        saveJson = QAction(QIcon(r"icons\json.png"),"saveJson",self)
         tb.addAction(saveJson)
 
         tb.actionTriggered[QAction].connect(self.tbpressed)
 
 
     def tbpressed(self,action):
-        if action.text() == "RAIO":
+        if action.text() == "particulas":
             self.textBox.show()
-        elif action.text() == "JSON":
+        elif action.text() == "saveJson":
             self.model.saveMesh(600, 7850, 210000000000.0, 0.00004)
             self.close()
