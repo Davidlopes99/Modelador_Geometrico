@@ -192,8 +192,6 @@ class MyModel:
                     self.restrs.append([0.0, 0.0])
 
                 
-                #self.forces = [[0]*(len(self.mesh)*2)]
-                #self.restrs = [[0]*(len(self.mesh)*2)]
 
     def setForces(self, fence_model, x_force, y_force):
         if self.mesh != []:

@@ -16,8 +16,8 @@ class MyCanvas(QtOpenGL.QGLWidget):
     def __init__(self, radius_getter):
         super(MyCanvas, self).__init__()
         self.model = None
-        self.w = 0 # width: GL canvas horizontal size
-        self.h = 0 # height: GL canvas vertical size
+        self.w = 0 
+        self.h = 0 
         self.l = -1000.0
         self.r =  1000.0
         self.b = -1000.0
@@ -49,26 +49,21 @@ class MyCanvas(QtOpenGL.QGLWidget):
         self.list = glGenLists(1)
     
     def resizeGL(self, width, height):
-        # store GL canvas sizes in object properties
         self.w = width
         self.h = height
         
-        # Setup world space window limits (bounding box?)
         if(self.model==None)or(self.model.isEmpty()):
              self.scaleWorldWindow(1.0)
         else:
             self.l,self.r,self.b,self.t = self.model.getBoundBox()
             self.scaleWorldWindow(1.1)
 
-        # setup the viewport to canvas dimensions
         glViewport(0, 0, self.w, self.h)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
 
-        # establish the clipping volume by setting up an orthographic projection
         glOrtho(self.l,self.r,self.b,self.t,-1.0,1.0)
 
-        # setup display in model coordinates
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
@@ -76,7 +71,6 @@ class MyCanvas(QtOpenGL.QGLWidget):
         # clear the buffer with the current clear color
         glClear(GL_COLOR_BUFFER_BIT)
 
-        # draw the model
 
         glCallList(self.list)
         glDeleteLists(self.list, 1)
@@ -99,7 +93,6 @@ class MyCanvas(QtOpenGL.QGLWidget):
                 pts = pat.getPoints()
                 triangs = Tesselation.tessellate(pts)
                 for j in range(len(triangs)):
-                    #glColor3fv(pts[triangs[j][2]].getColor()) #color
                     glColor3fv([200,1,1])
                     glBegin(GL_TRIANGLES)
                     glVertex2d(pts[triangs[j][0]].getX(), pts[triangs[j][0]].getY())
@@ -107,7 +100,6 @@ class MyCanvas(QtOpenGL.QGLWidget):
                     glVertex2d(pts[triangs[j][2]].getX(), pts[triangs[j][2]].getY())
                     glEnd()
 
-            #for the line not be under the seg while drawing
             if not self.isPanAllowed and not self.isFenceColectorOn:
                 glColor3f(40, 20, 0.5)
                 glBegin(GL_LINE_STRIP)
@@ -178,18 +170,14 @@ class MyCanvas(QtOpenGL.QGLWidget):
         self.model = model
 
     def panWorldWindow(self, panFacX, panFacY):
-        # Compute pan distances in horizontal and vertical directions.
         panX = (self.r - self.l) * panFacX
         panY = (self.t - self.b) * panFacY
 
-        # Shift current window.
         self.l += panX
         self.r += panX
         self.b += panY
         self.t += panY
 
-        # Establish the clipping volume by setting up an
-        # orthographic projection
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         glOrtho(self.l, self.r, self.b, self.t, -1.0, 1.0)
@@ -204,18 +192,14 @@ class MyCanvas(QtOpenGL.QGLWidget):
         self.update()
     
     def scaleWorldWindow(self, scaleFac):
-        # Compute canvas viewport distortion ratio.
         vpr = self.h / self.w
 
-        # Get current window center.
         cx = (self.l + self.r) / 2.0
         cy = (self.b + self.t) / 2.0
 
-        # Set new window sizes based on scaling factor.
         sizex = (self.r - self.l) * scaleFac
         sizey = (self.t - self.b) * scaleFac
 
-        # Adjust window to keep the same aspect ratio of the viewport.
         if sizey > (vpr*sizex): sizex = sizey / vpr
         else: sizey = sizex * vpr
 
@@ -224,8 +208,6 @@ class MyCanvas(QtOpenGL.QGLWidget):
         self.b = cy - (sizey * 0.5)
         self.t = cy + (sizey * 0.5)
 
-        # Establish the clipping volume by setting up an
-        # orthographic projection
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         glOrtho(self.l, self.r, self.b, self.t, -1.0, 1.0)
@@ -236,9 +218,7 @@ class MyCanvas(QtOpenGL.QGLWidget):
 
     def mouseMoveEvent(self, event):
         if self.m_buttonPressed:
-            self.previous_mpt = self.m_pt1 # to pan function
-
-            #print(self.m_pt1)
+            self.previous_mpt = self.m_pt1 
 
             self.m_pt1 = event.pos()
 
@@ -279,7 +259,6 @@ class MyCanvas(QtOpenGL.QGLWidget):
 
 
         self.m_buttonPressed = False
-        #python 3.10 has an issue with set floats even if QpointF is used
         self.m_pt0 = QtCore.QPointF(0.0,0.0)
         self.m_pt0 = QtCore.QPointF(0.0,0.0)
         self.m_pt1 = QtCore.QPointF(0.0,0.0)
